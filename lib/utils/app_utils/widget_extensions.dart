@@ -44,7 +44,7 @@ extension StateLayouts on Widget {
           ? Stack(
               children: [
                 this,
-                // OfflineBar(), ur widget to be shown with the layout
+                // OfflineBar(), ur widget to be shown with the layout to inform user he is offline
               ],
             )
           : this;
