@@ -4,12 +4,13 @@ import 'package:flutter/services.dart';
 import 'route_transation.dart';
 
 hideStatusBar() {
-  SystemChrome.setEnabledSystemUIOverlays(<SystemUiOverlay>[]);
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+      overlays: <SystemUiOverlay>[]);
 }
 
 revertStatusBar() {
-  SystemChrome.setEnabledSystemUIOverlays(
-      <SystemUiOverlay>[SystemUiOverlay.bottom, SystemUiOverlay.top]);
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
+      overlays: <SystemUiOverlay>[SystemUiOverlay.bottom, SystemUiOverlay.top]);
   SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarColor: Colors.black));
 }
