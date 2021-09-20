@@ -2,6 +2,8 @@ abstract class FormValidatorLocale {
   String name();
   String required();
   String minLength(String v, int n);
+  String min(String v, int n);
+  String max(String v, int n);
   String maxLength(String v, int n);
   String email(String v);
   String phoneNumber(String v);

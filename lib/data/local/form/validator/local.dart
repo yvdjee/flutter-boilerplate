@@ -43,4 +43,10 @@ class LocaleEn implements FormValidatorLocale {
 
   @override
   String upperCase(String v) => 'The field is not in upper case';
+
+  @override
+  String max(String v, int n) => '$v must be less than or equal to $n';
+
+  @override
+  String min(String v, int n) => '$v must be greater than or equal to $n';
 }

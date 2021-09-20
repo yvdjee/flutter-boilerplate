@@ -7,8 +7,8 @@ typedef StringValidationCallback = String? Function(String? value);
 
 typedef Action<T> = Function(T builder);
 
-class ValidationBuilder {
-  ValidationBuilder({
+class EzValidator {
+  EzValidator({
     String? localeName,
     this.optional = false,
     FormValidatorLocale? locale = const LocaleEn(),
@@ -22,7 +22,7 @@ class ValidationBuilder {
   final FormValidatorLocale _locale;
   final List<StringValidationCallback> validations = [];
 
-  ValidationBuilder reset() {
+  EzValidator reset() {
     validations.clear();
     if (optional != true) {
       required(requiredMessage);
@@ -30,7 +30,7 @@ class ValidationBuilder {
     return this;
   }
 
-  ValidationBuilder add(StringValidationCallback validator) {
+  EzValidator add(StringValidationCallback validator) {
     validations.add(validator);
     return this;
   }
@@ -51,13 +51,13 @@ class ValidationBuilder {
 
   StringValidationCallback build() => test;
 
-  ValidationBuilder or(
-    Action<ValidationBuilder> left,
-    Action<ValidationBuilder> right, {
+  EzValidator or(
+    Action<EzValidator> left,
+    Action<EzValidator> right, {
     bool reverse = false,
   }) {
-    final v1 = ValidationBuilder(locale: _locale);
-    final v2 = ValidationBuilder(locale: _locale);
+    final v1 = EzValidator(locale: _locale);
+    final v2 = EzValidator(locale: _locale);
 
     left(v1);
     right(v2);
@@ -78,49 +78,57 @@ class ValidationBuilder {
     });
   }
 
-  ValidationBuilder required([String? message]) =>
+  EzValidator required([String? message]) =>
       add((v) => v == null || v.isEmpty ? message ?? _locale.required() : null);
 
-  ValidationBuilder minLength(int minLength, [String? message]) =>
+  EzValidator minLength(int minLength, [String? message]) =>
       add((v) => v!.length < minLength
           ? message ?? _locale.minLength(v, minLength)
           : null);
 
-  ValidationBuilder maxLength(int maxLength, [String? message]) =>
+  EzValidator min(int min, [String? message]) => add(
+      (v) => int.parse('$v') <= min ? message ?? _locale.min('$v', min) : null);
+
+  EzValidator max(int min, [String? message]) => add(
+      (v) => int.parse('$v') >= min ? message ?? _locale.max('$v', min) : null);
+
+  EzValidator maxLength(int maxLength, [String? message]) =>
       add((v) => v!.length > maxLength
           ? message ?? _locale.maxLength(v, maxLength)
           : null);
 
-  ValidationBuilder matches(RegExp regExp, String message) =>
+  EzValidator matches(RegExp regExp, String message) =>
       add((v) => regExp.hasMatch(v!) ? null : message);
 
-  ValidationBuilder email([String? message]) =>
+  EzValidator email([String? message]) =>
       add((v) => emailRegExp.hasMatch(v!) ? null : message ?? _locale.email(v));
 
-  ValidationBuilder phone([String? message]) =>
-      add((v) => !anyLetter.hasMatch(v!) &&
-              phoneRegExp.hasMatch(v.replaceAll(nonDigitsExp, ''))
-          ? null
-          : message ?? _locale.phoneNumber(v));
+  EzValidator phone([String? message]) => add((v) => !anyLetter.hasMatch(v!) &&
+          phoneRegExp.hasMatch(v.replaceAll(nonDigitsExp, ''))
+      ? null
+      : message ?? _locale.phoneNumber(v));
 
-  ValidationBuilder ip([String? message]) =>
+  EzValidator ip([String? message]) =>
       add((v) => ipv4RegExp.hasMatch(v!) ? null : message ?? _locale.ip(v));
 
-  ValidationBuilder ipv6([String? message]) =>
+  EzValidator ipv6([String? message]) =>
       add((v) => ipv6RegExp.hasMatch(v!) ? null : message ?? _locale.ipv6(v));
 
-  ValidationBuilder url([String? message]) =>
+  EzValidator url([String? message]) =>
       add((v) => urlRegExp.hasMatch(v!) ? null : message ?? _locale.url(v));
 
-  ValidationBuilder boolean([String? message]) => add(
+  EzValidator boolean([String? message]) => add(
       (v) => booleanExp.hasMatch(v!) ? null : message ?? _locale.boolean(v));
 
-  ValidationBuilder uuid([String? message]) =>
+  EzValidator uuid([String? message]) =>
       add((v) => uuidExp.hasMatch(v!) ? null : message ?? _locale.uuid(v));
 
-  ValidationBuilder lowerCase([String? message]) => add(
+  EzValidator lowerCase([String? message]) => add(
       (v) => v == v!.toLowerCase() ? null : message ?? _locale.lowerCase(v));
 
-  ValidationBuilder upperCase([String? message]) => add(
+  EzValidator upperCase([String? message]) => add(
       (v) => v == v!.toUpperCase() ? null : message ?? _locale.upperCase(v));
+
+  EzValidator defaultTest(String message, bool Function(String?) test) =>
+      add((v) => test(v) ? null : message);
 }
