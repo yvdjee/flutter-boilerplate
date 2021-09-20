@@ -1,7 +1,7 @@
-import 'package:domodar/data/form/validator/local.dart';
-import 'package:domodar/data/form/validator/regex_list.dart';
+import 'package:domodar/data/local/form/validator/regex_list.dart';
 
 import 'form_validator_locale.dart';
+import 'local.dart';
 
 typedef StringValidationCallback = String? Function(String? value);
 
@@ -91,7 +91,7 @@ class ValidationBuilder {
           ? message ?? _locale.maxLength(v, maxLength)
           : null);
 
-  ValidationBuilder regExp(RegExp regExp, String message) =>
+  ValidationBuilder matches(RegExp regExp, String message) =>
       add((v) => regExp.hasMatch(v!) ? null : message);
 
   ValidationBuilder email([String? message]) =>
@@ -111,4 +111,7 @@ class ValidationBuilder {
 
   ValidationBuilder url([String? message]) =>
       add((v) => urlRegExp.hasMatch(v!) ? null : message ?? _locale.url(v));
+
+  ValidationBuilder boolean([String? message]) =>
+      add((v) => booleanExp.hasMatch(v!) ? null : message ?? _locale.email(v));
 }
