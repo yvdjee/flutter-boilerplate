@@ -30,7 +30,7 @@ class EzValidator {
     return this;
   }
 
-  EzValidator add(StringValidationCallback validator) {
+  EzValidator _add(StringValidationCallback validator) {
     validations.add(validator);
     return this;
   }
@@ -65,7 +65,7 @@ class EzValidator {
     final v1cb = v1.build();
     final v2cb = v2.build();
 
-    return add((value) {
+    return _add((value) {
       final leftResult = v1cb(value);
       if (leftResult == null) {
         return null;
@@ -78,57 +78,63 @@ class EzValidator {
     });
   }
 
-  EzValidator required([String? message]) =>
-      add((v) => v == null || v.isEmpty ? message ?? _locale.required() : null);
+  EzValidator required([String? message]) => _add(
+      (v) => v == null || v.isEmpty ? message ?? _locale.required() : null);
 
   EzValidator minLength(int minLength, [String? message]) =>
-      add((v) => v!.length < minLength
+      _add((v) => v!.length < minLength
           ? message ?? _locale.minLength(v, minLength)
           : null);
 
-  EzValidator min(int min, [String? message]) => add(
+  EzValidator min(int min, [String? message]) => _add(
       (v) => int.parse('$v') <= min ? message ?? _locale.min('$v', min) : null);
 
-  EzValidator max(int min, [String? message]) => add(
+  EzValidator max(int min, [String? message]) => _add(
       (v) => int.parse('$v') >= min ? message ?? _locale.max('$v', min) : null);
 
   EzValidator maxLength(int maxLength, [String? message]) =>
-      add((v) => v!.length > maxLength
+      _add((v) => v!.length > maxLength
           ? message ?? _locale.maxLength(v, maxLength)
           : null);
 
   EzValidator matches(RegExp regExp, String message) =>
-      add((v) => regExp.hasMatch(v!) ? null : message);
+      _add((v) => regExp.hasMatch(v!) ? null : message);
 
-  EzValidator email([String? message]) =>
-      add((v) => emailRegExp.hasMatch(v!) ? null : message ?? _locale.email(v));
+  EzValidator email([String? message]) => _add(
+      (v) => emailRegExp.hasMatch(v!) ? null : message ?? _locale.email(v));
 
-  EzValidator phone([String? message]) => add((v) => !anyLetter.hasMatch(v!) &&
+  EzValidator phone([String? message]) => _add((v) => !anyLetter.hasMatch(v!) &&
           phoneRegExp.hasMatch(v.replaceAll(nonDigitsExp, ''))
       ? null
       : message ?? _locale.phoneNumber(v));
 
   EzValidator ip([String? message]) =>
-      add((v) => ipv4RegExp.hasMatch(v!) ? null : message ?? _locale.ip(v));
+      _add((v) => ipv4RegExp.hasMatch(v!) ? null : message ?? _locale.ip(v));
 
   EzValidator ipv6([String? message]) =>
-      add((v) => ipv6RegExp.hasMatch(v!) ? null : message ?? _locale.ipv6(v));
+      _add((v) => ipv6RegExp.hasMatch(v!) ? null : message ?? _locale.ipv6(v));
 
   EzValidator url([String? message]) =>
-      add((v) => urlRegExp.hasMatch(v!) ? null : message ?? _locale.url(v));
+      _add((v) => urlRegExp.hasMatch(v!) ? null : message ?? _locale.url(v));
 
-  EzValidator boolean([String? message]) => add(
+  EzValidator boolean([String? message]) => _add(
       (v) => booleanExp.hasMatch(v!) ? null : message ?? _locale.boolean(v));
 
   EzValidator uuid([String? message]) =>
-      add((v) => uuidExp.hasMatch(v!) ? null : message ?? _locale.uuid(v));
+      _add((v) => uuidExp.hasMatch(v!) ? null : message ?? _locale.uuid(v));
 
-  EzValidator lowerCase([String? message]) => add(
+  EzValidator lowerCase([String? message]) => _add(
       (v) => v == v!.toLowerCase() ? null : message ?? _locale.lowerCase(v));
 
-  EzValidator upperCase([String? message]) => add(
+  EzValidator upperCase([String? message]) => _add(
       (v) => v == v!.toUpperCase() ? null : message ?? _locale.upperCase(v));
 
+  EzValidator oneOf(List<String?> items, [String? message]) => _add((v) =>
+      items.contains(v) ? null : message ?? _locale.oneOf(items, v as String));
+
+  EzValidator notOneOf(List<String?> items, [String? message]) => _add((v) =>
+      !items.contains(v) ? null : message ?? _locale.oneOf(items, v as String));
+
   EzValidator defaultTest(String message, bool Function(String?) test) =>
-      add((v) => test(v) ? null : message);
+      _add((v) => test(v) ? null : message);
 }

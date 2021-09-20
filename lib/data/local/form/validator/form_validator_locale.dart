@@ -14,4 +14,6 @@ abstract class FormValidatorLocale {
   String uuid(String v);
   String lowerCase(String v);
   String upperCase(String v);
+  String oneOf(List<String?> items, String v);
+  String notOneOf(List<String?> items, String v);
 }

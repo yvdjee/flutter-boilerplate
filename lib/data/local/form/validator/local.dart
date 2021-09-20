@@ -49,4 +49,12 @@ class LocaleEn implements FormValidatorLocale {
 
   @override
   String min(String v, int n) => '$v must be greater than or equal to $n';
+
+  @override
+  String oneOf(List<String?> items, String v) =>
+      '$v must be one of the following values: ${items.join(',')}';
+
+  @override
+  String notOneOf(List<String?> items, String v) =>
+      '$v must not be one of the following value: ${items.join(',')}';
 }
