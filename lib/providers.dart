@@ -1,4 +1,5 @@
 import 'package:domodar/stores/language/app_localization.dart';
+import 'package:domodar/stores/providers/app_theme.dart';
 import 'package:domodar/stores/providers/connectivity_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -12,6 +13,9 @@ class Providers {
     ),
     ChangeNotifierProvider.value(
       value: AppLocalization(),
+    ),
+    ChangeNotifierProvider.value(
+      value: AppTheme(),
     ),
   ];
 }
