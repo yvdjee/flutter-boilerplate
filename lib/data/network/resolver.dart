@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:domodar/constant/api_paths.dart';
 import 'package:domodar/models/request_error.dart';
 import 'package:http/http.dart';
@@ -8,7 +9,7 @@ bool isSuccessful(int status) {
 }
 
 Future<Response> postRequest(String endPoint, Map<String, dynamic> body) async {
-  print("$BASE_URL$endPoint");
+  log("$BASE_URL$endPoint");
   var response = await post(
     Uri.parse('$BASE_URL$endPoint'),
     body: body,
@@ -18,7 +19,7 @@ Future<Response> postRequest(String endPoint, Map<String, dynamic> body) async {
 }
 
 Future<Response> getRequest(String endPoint) async {
-  print("$BASE_URL$endPoint");
+  log("$BASE_URL$endPoint");
   var response = await get(
     Uri.parse('$BASE_URL$endPoint'),
     headers: HEADERS,
