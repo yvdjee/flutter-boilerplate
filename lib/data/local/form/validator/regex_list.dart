@@ -10,3 +10,5 @@ final RegExp ipv6RegExp = RegExp(
 final RegExp urlRegExp = RegExp(
     r'https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)');
 final RegExp booleanExp = RegExp(r'^(true|false)$', caseSensitive: true);
+final RegExp uuidExp = RegExp(
+    r'\b[0-9a-f]{8}\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\b[0-9a-f]{12}\b');

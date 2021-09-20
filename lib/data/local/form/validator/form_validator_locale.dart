@@ -9,4 +9,7 @@ abstract class FormValidatorLocale {
   String ipv6(String v);
   String url(String v);
   String boolean(String v);
+  String uuid(String v);
+  String lowerCase(String v);
+  String upperCase(String v);
 }

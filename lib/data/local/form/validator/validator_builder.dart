@@ -112,6 +112,15 @@ class ValidationBuilder {
   ValidationBuilder url([String? message]) =>
       add((v) => urlRegExp.hasMatch(v!) ? null : message ?? _locale.url(v));
 
-  ValidationBuilder boolean([String? message]) =>
-      add((v) => booleanExp.hasMatch(v!) ? null : message ?? _locale.email(v));
+  ValidationBuilder boolean([String? message]) => add(
+      (v) => booleanExp.hasMatch(v!) ? null : message ?? _locale.boolean(v));
+
+  ValidationBuilder uuid([String? message]) =>
+      add((v) => uuidExp.hasMatch(v!) ? null : message ?? _locale.uuid(v));
+
+  ValidationBuilder lowerCase([String? message]) => add(
+      (v) => v == v!.toLowerCase() ? null : message ?? _locale.lowerCase(v));
+
+  ValidationBuilder upperCase([String? message]) => add(
+      (v) => v == v!.toUpperCase() ? null : message ?? _locale.upperCase(v));
 }

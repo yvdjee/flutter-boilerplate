@@ -34,4 +34,13 @@ class LocaleEn implements FormValidatorLocale {
 
   @override
   String boolean(String v) => 'The field is not a boolean type';
+
+  @override
+  String uuid(String v) => 'The field is not a valid uuid';
+
+  @override
+  String lowerCase(String v) => 'The field is not in lower case';
+
+  @override
+  String upperCase(String v) => 'The field is not in upper case';
 }
