@@ -51,33 +51,6 @@ class EzValidator {
 
   StringValidationCallback build() => test;
 
-  EzValidator or(
-    Action<EzValidator> left,
-    Action<EzValidator> right, {
-    bool reverse = false,
-  }) {
-    final v1 = EzValidator(locale: _locale);
-    final v2 = EzValidator(locale: _locale);
-
-    left(v1);
-    right(v2);
-
-    final v1cb = v1.build();
-    final v2cb = v2.build();
-
-    return _add((value) {
-      final leftResult = v1cb(value);
-      if (leftResult == null) {
-        return null;
-      }
-      final rightResult = v2cb(value);
-      if (rightResult == null) {
-        return null;
-      }
-      return reverse == true ? leftResult : rightResult;
-    });
-  }
-
   EzValidator required([String? message]) => _add(
       (v) => v == null || v.isEmpty ? message ?? _locale.required() : null);
 
