@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'route_transation.dart';
+import '../animations/route_transation.dart';
 
 hideStatusBar() {
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
